@@ -89,3 +89,10 @@ class MapPlot:
         )
 
         return communities_map
+
+# numpy==1.16.5
+# panda==0.3.1
+# plotly==4.6.0
+# lxml==4.4.1
+# requests==2.22.0
+# streamlit==0.57.3
