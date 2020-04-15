@@ -1,15 +1,9 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import seaborn as sns
-from pipreqs import *
-
 from procesado import Process
 from plots import *
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-import seaborn as sns
+
 
 st.title("COVID-19 en España")
 st.markdown("¡Bienvenido! El propósito de esta web es predecir la evolución de la pandemia en España.")
