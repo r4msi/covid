@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 import plotly.express as px
 import json
-import requests
+
 
 
 class DailyPlots:
@@ -14,9 +14,9 @@ class DailyPlots:
     def infected(self):
         fig = px.bar(
             self.dt
-            , x="dateRep"
-            , y='cases'
-            , color="cases"
+            , x="fecha"
+            , y='casos'
+            , color="casos"
             , title="Infectados"
             , color_continuous_scale=px.colors.sequential.Sunsetdark
 
@@ -26,42 +26,68 @@ class DailyPlots:
     def deaths(self):
         fig = px.bar(
             self.dt
-            , x="dateRep"
-            , y='deaths'
-            , color="deaths"
+            , x="fecha"
+            , y='fallecimientos'
+            , color="fallecimientos"
             , title="Fallecidos"
             , color_continuous_scale=px.colors.sequential.YlOrRd
+
 
         )
         return fig
 
-    def weekend(self):
-        fig = px.bar(
-            self.dt
-            , x="dateRep"
-            , y='cases'
-            , color="weekend"
-            , title="Estacionalidad FDS"
+    def all_imputed(self):
+        fig = px.line(
+            self.dt,
+            x="fecha",
+            y="casos",
+            title = "Estadísticos Imputados"
         )
+        fig.add_scatter(
+            x =self.dt.fecha,
+            y=self.dt.fallecimientos,
+            mode="lines",
+            name ="Fallecidos"
+        )
+        fig.add_scatter(
+            x =self.dt.fecha,
+            y=self.dt.imputed_uci,
+            mode="lines",
+            name ="Ingresos UCI"
+        )
+        fig.add_scatter(
+            x =self.dt.fecha,
+            y=self.dt.imputed_hos,
+            mode="lines",
+            name ="Hospitalizados"
+        )
+        fig.add_scatter(
+            x =self.dt.fecha,
+            y=self.dt.altas,
+            mode="lines",
+            name ="Altas"
+        )
+        fig.update_layout(shapes=[
+            dict(
+                type= 'line',
+                yref= 'paper', y0= 0, y1= 1,
+                xref= 'x', x0= "2020-04-8", x1= "2020-04-8"
+            )
+        ])
+
         return fig
 
 
 class MapPlot:
 
     def __init__(self):
-        url = "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Spain"
-        html = requests.get(url).content
-        df_list = pd.read_html(html)
-        ccaa = pd.DataFrame(df_list[5])
-        ccaa = ccaa.iloc[:19, [0, 1, 4, 5]]
-        ccaa.columns = ["name", "casos", "fallecidos", "recuperados"]
-        ccaa.casos = ccaa.casos.astype(int)
-        ccaa.fallecidos = ccaa.fallecidos.astype(int)
-        ccaa.recuperados = ccaa.recuperados.astype(int)
+        ccaa = pd.read_csv("https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_casos.csv")
+        ccaa = ccaa.iloc[:19, [1,len(ccaa.columns)-1]]
         geojson_names = ['Andalucia', 'Aragon', 'Asturias', 'Baleares', 'Canarias', 'Cantabria',
                          'Castilla-La Mancha', 'Castilla-Leon', 'Cataluña', 'Ceuta', 'Valencia', 'Extremadura',
                          'Galicia', 'Madrid', 'Melilla', 'Murcia', 'Navarra', 'Pais Vasco', 'La Rioja']
-        ccaa.name = geojson_names
+        ccaa.CCAA = geojson_names
+        ccaa.columns = ["CCAA","Casos"]
         ccaa["lon"] = [
             -4.781781, -0.659680, -5.992278, 2.905567, -15.675631, -4.030503, -3.004896, -4.781781, 1.529704, -5.344635,
             -0.553555, -6.151062, -7.910482, -3.716192, -2.948448, -1.483965, -1.646159, -2.615614, -2.518741
@@ -72,20 +98,21 @@ class MapPlot:
         ]
         self.dt = ccaa
 
-    def Map(self, tipo):
+    def Map(self):
         px.set_mapbox_access_token(
             "pk.eyJ1IjoicjRtc2kiLCJhIjoiY2s4enhvZ2Z6MDBkajNpbnoxNGRwMGV6MSJ9.2zKymbQhYrmC-YwSaJUNbQ")
         communities_map = px.scatter_mapbox(
             self.dt,
             lat="lat",
             lon="lon",
-            color=tipo,
-            size=tipo,
+            color="Casos",
+            size="Casos",
             color_continuous_scale=px.colors.sequential.Reds,
-            size_max=50,
+            size_max=40,
             zoom=4,
-            hover_name="name",
+            hover_name="CCAA",
             opacity=0.8
+
         )
 
         return communities_map
