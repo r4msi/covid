@@ -80,3 +80,25 @@ class ProccesModel:
         forecast["days"] = forecast.days.apply(lambda x: int(x.days))
 
         return data_lag, forecast
+
+class ProcessMap:
+    def __init__(self):
+        ccaa = pd.read_csv("https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_casos.csv")
+        ccaa = ccaa.iloc[:19, [1,len(ccaa.columns)-1]]
+        geojson_names = ['Andalucia', 'Aragon', 'Asturias', 'Baleares', 'Canarias', 'Cantabria',
+                         'Castilla-La Mancha', 'Castilla-Leon', 'Cataluña', 'Ceuta', 'Valencia', 'Extremadura',
+                         'Galicia', 'Madrid', 'Melilla', 'Murcia', 'Navarra', 'Pais Vasco', 'La Rioja']
+        ccaa.CCAA = geojson_names
+        ccaa.columns = ["CCAA","Casos"]
+        ccaa["lon"] = [
+            -4.781781, -0.659680, -5.992278, 2.905567, -15.675631, -4.030503, -3.004896, -4.781781, 1.529704, -5.344635,
+            -0.553555, -6.151062, -7.910482, -3.716192, -2.948448, -1.483965, -1.646159, -2.615614, -2.518741
+        ]
+        ccaa["lat"] = [
+            37.462498, 41.519807, 43.291806, 39.571921, 28.340070, 43.196969, 39.581025, 41.753871, 41.798855,35.888737,
+            39.400376, 39.191082, 42.757532, 40.494110, 35.291773, 38.001222, 42.667265, 43.043277, 42.274566
+        ]
+        self.dt = ccaa
+
+    def ret(self):
+        return self.dt

@@ -5,3 +5,5 @@ numpy==1.17.3
 panda==0.3.1
 plotly==4.6.0
 lxml==4.4.1
+matplotlib==3.2.1
+seaborn==0.10.0 
