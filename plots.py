@@ -22,8 +22,10 @@ class DailyPlots:
             , color="casos"
             , title="Infectados"
             , color_continuous_scale=px.colors.sequential.Sunsetdark
-
         )
+
+
+
         return fig
 
     def deaths(self):
@@ -34,17 +36,18 @@ class DailyPlots:
             , color="fallecimientos"
             , title="Fallecidos"
             , color_continuous_scale=px.colors.sequential.YlOrRd
-
-
         )
+
+
         return fig
 
     def all_imputed(self):
-        fig = px.line(
-            self.dt,
-            x="fecha",
-            y="casos",
-            title = "Estadísticos Imputados"
+        fig = px.line()
+        fig.add_scatter(
+            x = self.dt.fecha,
+            y=self.dt.casos,
+            mode = "lines",
+            name="Nuevos Contagios"
         )
         fig.add_scatter(
             x =self.dt.fecha,
@@ -77,6 +80,11 @@ class DailyPlots:
                 xref= 'x', x0= "2020-04-8", x1= "2020-04-8"
             )
         ])
+        # fig.update_layout(
+        #     autosize=False,
+        #     width=500,
+        #     height=500
+        # )
 
         return fig
 
@@ -118,6 +126,7 @@ class HeatMap:
         ).corr("spearman"),
         cmap=sns.diverging_palette(10, 220, as_cmap=True)
         )
+
 
         return fig
 
