@@ -56,30 +56,30 @@ class Models:
             color = "Predicciones"
         )
 
-        predictions.columns =["Predicciones_Fallecimientos", "fecha"]
+        # predictions.columns =["Predicciones_Fallecimientos", "fecha"]
+        #
+        # load = str(self.dt.loc[len(self.dt)-1, "fecha"] - timedelta(days=1))
+        # load = load[0:10] + "log.pkl"
+        #
+        # with open(load, "rb") as file:
+        #     historic = pickle.load(file)
+        # predictions["Error"] = 0
+        # p=pd.concat([predictions.reset_index(drop=True), historic], ignore_index=True)
+        # p = p.loc[p.fecha <= self.dt.loc[len(self.dt)-1, "fecha"],:]
+        # p.reset_index(drop=True, inplace=True)
+        # for i in range(0,len(p)):
+        #     if self.dt.loc[len(self.dt)-1,"fecha"] == p.loc[i,"fecha"]:
+        #         p.loc[i,"Error"] = np.sqrt((self.dt.loc[len(self.dt)-1,"fallecimientos"] - p.loc[i,"Predicciones_Fallecimientos"])**2)
+        #
+        # save = str(self.dt.loc[len(self.dt)-1, "fecha"])
+        # save = save[0:10] + "log.pkl"
+        #
+        # with open(save, "wb") as file:
+        #     pickle.dump(p, file)
 
-        load = str(self.dt.loc[len(self.dt)-1, "fecha"] - timedelta(days=1))
-        load = load[0:10] + "log.pkl"
-
-        with open(load, "rb") as file:
-            historic = pickle.load(file)
-        predictions["Error"] = 0
-        p=pd.concat([predictions.reset_index(drop=True), historic], ignore_index=True)
-        p = p.loc[p.fecha <= self.dt.loc[len(self.dt)-1, "fecha"],:]
-        p.reset_index(drop=True, inplace=True)
-        for i in range(0,len(p)):
-            if self.dt.loc[len(self.dt)-1,"fecha"] == p.loc[i,"fecha"]:
-                p.loc[i,"Error"] = np.sqrt((self.dt.loc[len(self.dt)-1,"fallecimientos"] - p.loc[i,"Predicciones_Fallecimientos"])**2)
-
-        save = str(self.dt.loc[len(self.dt)-1, "fecha"])
-        save = save[0:10] + "log.pkl"
-
-        with open(save, "wb") as file:
-            pickle.dump(p, file)
 
 
-
-        return p, fig, sum
+        return  fig, sum
 
     def fit_ols(self):
 
@@ -111,30 +111,30 @@ class Models:
             color = "Predicciones",
         )
 
-        predictions.columns =["Predicciones_Fallecimientos", "fecha"]
+        # predictions.columns =["Predicciones_Fallecimientos", "fecha"]
+        #
+        # load = str(self.dt.loc[len(self.dt)-1, "fecha"] - timedelta(days=1))
+        # load = load[0:10] + ".pkl"
+        #
+        # with open(load, "rb") as file:
+        #     historic = pickle.load(file)
+        # predictions["Error"] = 0
+        # p=pd.concat([predictions.reset_index(drop=True), historic], ignore_index=True)
+        # p = p.loc[p.fecha <= self.dt.loc[len(self.dt)-1, "fecha"],:]
+        # p.reset_index(drop=True, inplace=True)
+        # for i in range(0,len(p)):
+        #     if self.dt.loc[len(self.dt)-1,"fecha"] == p.loc[i,"fecha"]:
+        #         p.loc[i,"Error"] = np.sqrt((self.dt.loc[len(self.dt)-1,"fallecimientos"] - p.loc[i,"Predicciones_Fallecimientos"])**2)
+        #
+        # save = str(self.dt.loc[len(self.dt)-1, "fecha"])
+        # save = save[0:10] + ".pkl"
+        #
+        # with open(save, "wb") as file:
+        #     pickle.dump(p, file)
 
-        load = str(self.dt.loc[len(self.dt)-1, "fecha"] - timedelta(days=1))
-        load = load[0:10] + ".pkl"
-
-        with open(load, "rb") as file:
-            historic = pickle.load(file)
-        predictions["Error"] = 0
-        p=pd.concat([predictions.reset_index(drop=True), historic], ignore_index=True)
-        p = p.loc[p.fecha <= self.dt.loc[len(self.dt)-1, "fecha"],:]
-        p.reset_index(drop=True, inplace=True)
-        for i in range(0,len(p)):
-            if self.dt.loc[len(self.dt)-1,"fecha"] == p.loc[i,"fecha"]:
-                p.loc[i,"Error"] = np.sqrt((self.dt.loc[len(self.dt)-1,"fallecimientos"] - p.loc[i,"Predicciones_Fallecimientos"])**2)
-
-        save = str(self.dt.loc[len(self.dt)-1, "fecha"])
-        save = save[0:10] + ".pkl"
-
-        with open(save, "wb") as file:
-            pickle.dump(p, file)
 
 
-
-        return p, fig, sum
+        return  fig, sum
 
     def fit_sarimax(self):
 
@@ -179,26 +179,26 @@ class Models:
             color = "Predicciones",
         )
 
-        predictions.columns =["Predicciones_Fallecimientos", "fecha"]
+        # predictions.columns =["Predicciones_Fallecimientos", "fecha"]
+        #
+        # load = str(self.dt.loc[len(self.dt)-1, "fecha"] - timedelta(days=1))
+        # load = load[0:10] + "_.pkl"
+        #
+        # with open(load, "rb") as file:
+        #     historic = pickle.load(file)
+        # predictions["Error"] = 0
+        # p=pd.concat([predictions.reset_index(drop=True), historic], ignore_index=True)
+        # p = p.loc[p.fecha <= self.dt.loc[len(self.dt)-1, "fecha"],:]
+        # p.reset_index(drop=True, inplace=True)
+        # for i in range(0,len(p)):
+        #     if self.dt.loc[len(self.dt)-1,"fecha"] == p.loc[i,"fecha"]:
+        #         p.loc[i,"Error"] = np.sqrt((self.dt.loc[len(self.dt)-1,"fallecimientos"] - p.loc[i,"Predicciones_Fallecimientos"])**2)
+        #
+        # save = str(self.dt.loc[len(self.dt)-1, "fecha"])
+        # save = save[0:10] + "_.pkl"
+        #
+        # with open(save, "wb") as file:
+        #     pickle.dump(p, file)
 
-        load = str(self.dt.loc[len(self.dt)-1, "fecha"] - timedelta(days=1))
-        load = load[0:10] + "_.pkl"
 
-        with open(load, "rb") as file:
-            historic = pickle.load(file)
-        predictions["Error"] = 0
-        p=pd.concat([predictions.reset_index(drop=True), historic], ignore_index=True)
-        p = p.loc[p.fecha <= self.dt.loc[len(self.dt)-1, "fecha"],:]
-        p.reset_index(drop=True, inplace=True)
-        for i in range(0,len(p)):
-            if self.dt.loc[len(self.dt)-1,"fecha"] == p.loc[i,"fecha"]:
-                p.loc[i,"Error"] = np.sqrt((self.dt.loc[len(self.dt)-1,"fallecimientos"] - p.loc[i,"Predicciones_Fallecimientos"])**2)
-
-        save = str(self.dt.loc[len(self.dt)-1, "fecha"])
-        save = save[0:10] + "_.pkl"
-
-        with open(save, "wb") as file:
-            pickle.dump(p, file)
-
-
-        return p, fig, sum
+        return  fig, sum
