@@ -85,12 +85,13 @@ if section_ind == "Predicciones":
         options = ["Log(OLS)", "OLS", "SARIMAX"]
     )
     if options == "Log(OLS)":
-        fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_log_ols()
+        e, fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_log_ols()
         st.plotly_chart(fig)
         # st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')
+        st.latex(r'\epsilon = |obs - pred|')
         # st.write("*Es decir, el sumatorio de la predicción - lo observado entre N.*")
         # e = np.sum(p.Error)/len(p)
-        # e
+        st.table(e)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
         st.header("Calidad del Modelo:")
         st.write("Se muestra la exponencial de los coeficientes (Casos y Days).")
@@ -98,23 +99,25 @@ if section_ind == "Predicciones":
 
 
     if options == "OLS":
-        fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_ols()
+        e, fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_ols()
         st.plotly_chart(fig)
         st.markdown("*Se reporta la raiz del error cuadrático medio:*")
         # st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')
         # st.write("*Es decir, el sumatorio de la predicción - lo observado entre N.*")
         # e = np.sum(p.Error)/len(p)
-        # e
+        st.latex(r'\epsilon = |obs - pred|')
+        st.table(e)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
         st.header("Calidad del Modelo:")
         st.text(sum)
     if options == "SARIMAX":
-        fig, summary = Models(data=df, data_lag=data_lag, forecast = forecast ).fit_sarimax()
+        e, fig, summary = Models(data=df, data_lag=data_lag, forecast = forecast ).fit_sarimax()
         st.plotly_chart(fig)
         # st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')
         # st.write("*Es decir, el sumatorio de la predicción - lo observado entre N.*")
         # e = np.sum(p.Error)/len(p)
-        # e
+        st.latex(r'\epsilon = |obs - pred|')
+        st.table(e)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
         st.header("Calidad del Modelo:")
         st.text(summary)

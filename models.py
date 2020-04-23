@@ -36,6 +36,10 @@ class Models:
         predictions = pd.DataFrame(
             np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
         )
+        e = pd.DataFrame({
+        "Modelo" : "Log(OLS)",
+        "Predicción de hoy" : [predictions.iloc[0,0]],
+        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         predictions["fecha"] = self.dt.loc[len(self.dt)-1, "fecha"]
         predictions.columns = ["fallecimientos", "fecha"]
@@ -55,6 +59,7 @@ class Models:
             y = "fallecimientos",
             color = "Predicciones"
         )
+
 
         # predictions.columns =["Predicciones_Fallecimientos", "fecha"]
         #
@@ -79,7 +84,7 @@ class Models:
 
 
 
-        return  fig, sum
+        return  e, fig, sum
 
     def fit_ols(self):
 
@@ -91,6 +96,11 @@ class Models:
         predictions = pd.DataFrame(
             ts_ols.predict(self.forecast.drop("fecha", axis=1))
         )
+
+        e = pd.DataFrame({
+        "Modelo" : "OLS",
+        "Predicción de hoy" : [predictions.iloc[0,0]],
+        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         predictions["fecha"] = self.dt.loc[len(self.dt)-1, "fecha"]
         predictions.columns = ["fallecimientos", "fecha"]
@@ -134,7 +144,7 @@ class Models:
 
 
 
-        return  fig, sum
+        return  e, fig, sum
 
     def fit_sarimax(self):
 
@@ -151,14 +161,19 @@ class Models:
 
         sarimax = SARIMAX(endog=self.data_lag[["fallecimientos"]],
                          exog=self.data_lag[["casos"]],
-                         order=(1,0,0),
-                         seasonal_order=(0,1,1,7)
+                         order=(1,1,0),
+                         seasonal_order=(1,1,0,7)
         ).fit()
 
         sum = sarimax.summary()
         predictions = pd.DataFrame(
             sarimax.forecast(steps=6, exog=self.forecast[["casos"]])
         )
+
+        e = pd.DataFrame({
+        "Modelo" : "SARIMAX",
+        "Predicción de hoy" : [predictions.iloc[0,0]],
+        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         predictions["fecha"] = self.dt.loc[len(self.dt)-1, "fecha"]
         predictions.columns = ["fallecimientos", "fecha"]
@@ -201,4 +216,4 @@ class Models:
         #     pickle.dump(p, file)
 
 
-        return  fig, sum
+        return  e, fig, sum
