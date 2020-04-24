@@ -4,6 +4,7 @@ from plots import *
 from models import Models
 
 
+
 st.sidebar.title('Contenido:')
 section_ind = st.sidebar.radio('',['Gráficos','Mapas', 'Predicciones', 'Datos/Código/Contacto'])
 
@@ -92,6 +93,13 @@ if section_ind == "Predicciones":
         # st.write("*Es decir, el sumatorio de la predicción - lo observado entre N.*")
         # e = np.sum(p.Error)/len(p)
         st.table(e)
+        hist = pd.DataFrame({
+            "Fecha": ["22/04/2020"],
+            "Error": [1.773],
+            "Predicción" : [438],
+            "Real" : [440]
+        })
+        st.table(hist)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
         st.header("Calidad del Modelo:")
         st.write("Se muestra la exponencial de los coeficientes (Casos y Days).")

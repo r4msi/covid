@@ -27,7 +27,7 @@ class Models:
         self.data_lag["fallecimientos"] = np.log(self.data_lag["fallecimientos"]+1)
         self.forecast["casos"] = np.log(self.forecast["casos"]+1)
 
-        ts_ols = LinearRegression().fit(self.data_lag.drop(["fecha","fallecimientos"],axis=1),self.data_lag.fallecimientos)
+        ts_ols = LinearRegression().fit(self.data_lag.iloc[:-1,].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-1,].fallecimientos)
         sum = coeficientes(
             ts_ols,
             self.data_lag.drop(["fecha", "fallecimientos"],axis=1),
@@ -89,8 +89,8 @@ class Models:
     def fit_ols(self):
 
         ts_ols = OLS(
-            self.data_lag.fallecimientos,
-            self.data_lag.drop(["fecha","fallecimientos"], axis=1)
+            self.data_lag.iloc[:-1,].fallecimientos,
+            self.data_lag.iloc[:-1,].drop(["fecha","fallecimientos"], axis=1)
         ).fit()
         sum = ts_ols.summary()
         predictions = pd.DataFrame(
@@ -159,8 +159,8 @@ class Models:
         #                    suppress_warnings=True,
         #                    stepwise=True)
 
-        sarimax = SARIMAX(endog=self.data_lag[["fallecimientos"]],
-                         exog=self.data_lag[["casos"]],
+        sarimax = SARIMAX(endog=self.data_lag.iloc[:-1,][["fallecimientos"]],
+                         exog=self.data_lag.iloc[:-1,][["casos"]],
                          order=(1,1,0),
                          seasonal_order=(1,1,0,7)
         ).fit()
