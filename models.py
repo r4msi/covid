@@ -27,7 +27,18 @@ class Models:
         self.data_lag["fallecimientos"] = np.log(self.data_lag["fallecimientos"]+1)
         self.forecast["casos"] = np.log(self.forecast["casos"]+1)
 
+        # Calcular el error de hoy
         ts_ols = LinearRegression().fit(self.data_lag.iloc[:-2,].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-2,].fallecimientos)
+        predictions = pd.DataFrame(
+            np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
+        )
+        e = pd.DataFrame({
+        "Modelo" : "Log(OLS)",
+        "Predicción de hoy" : [predictions.iloc[0,0]],
+        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
+
+        # Predicciones
+        ts_ols = LinearRegression().fit(self.data_lag.drop(["fecha","fallecimientos"],axis=1),self.data_lag.fallecimientos)
         sum = coeficientes(
             ts_ols,
             self.data_lag.drop(["fecha", "fallecimientos"],axis=1),
@@ -36,10 +47,6 @@ class Models:
         predictions = pd.DataFrame(
             np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
         )
-        e = pd.DataFrame({
-        "Modelo" : "Log(OLS)",
-        "Predicción de hoy" : [predictions.iloc[0,0]],
-        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         predictions["fecha"] = self.dt.loc[len(self.dt)-1, "fecha"]
         predictions.columns = ["fallecimientos", "fecha"]
@@ -161,7 +168,7 @@ class Models:
 
         sarimax = SARIMAX(endog=self.data_lag.iloc[:-2,][["fallecimientos"]],
                          exog=self.data_lag.iloc[:-2,][["casos"]],
-                         order=(0,0,4),
+                         order=(0,0,3),
                          seasonal_order=(0,0,0,0)
         ).fit()
 

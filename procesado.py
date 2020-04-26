@@ -30,6 +30,7 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-04-17",["altas","fallecimientos"]] = [3900, 585]
         self.dt.loc[self.dt.fecha=="2020-04-18", ["casos"]] = 4499.00
         self.dt.loc[self.dt.fecha=="2020-04-24", ["casos"]] = 5229.00
+        self.dt.loc[self.dt.fecha=="2020-04-26", ["casos"]] = 1729.00
 
         # Imputación de hospitalizados e ingresos en la UCI
         imputer_uci = IterativeImputer(
