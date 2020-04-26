@@ -26,6 +26,7 @@ class Models:
         self.data_lag["casos"] = np.log(self.data_lag["casos"]+1)
         self.data_lag["fallecimientos"] = np.log(self.data_lag["fallecimientos"]+1)
         self.forecast["casos"] = np.log(self.forecast["casos"]+1)
+        self.data_lag.loc[self.data_lag.fecha<="2020-04-04","days"] = 30
 
         # Calcular el error de hoy
         ts_ols = LinearRegression().fit(self.data_lag.iloc[:-2,].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-2,].fallecimientos)
@@ -95,6 +96,7 @@ class Models:
 
     def fit_ols(self):
 
+        self.data_lag.loc[self.data_lag.fecha<="2020-04-04","days"] = 30
         ts_ols = OLS(
             self.data_lag.iloc[:-2,].fallecimientos,
             self.data_lag.iloc[:-2,].drop(["fecha","fallecimientos"], axis=1)
