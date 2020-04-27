@@ -73,8 +73,8 @@ if section_ind == "Predicciones":
         predecir los fallecimientos futuros con los casos de hace una semana:**
         - Se calcula el retardo de 7 días de los nuevos casos.
         - Para capturar la tendencia de la pandemia se crea una variable temporal, que son los días desde el inicio de los fallecimientos.
-        - Se entrena una regresión lineal y otra las variables en su versión logarítmica (da mejores resultados en test).
-        - Se crea un modelo más complejo: SARIMAX, basado en retardos, autoregresión, estacionalidad y medias móviles. No solo recoge la
+        - Se entrena una regresión lineal y otra con las variables en su versión logarítmica (da mejores resultados en test).
+        - Se crea un modelo más complejo: SARIMAX, basado en retardos, autocorrelación, estacionalidad y medias móviles. No solo recoge la
         evolución de la variable objetivo consigo misma, si no que se introduce la variable de retardos de los casos como exógena para dar soporte
         a las predicciones.
         ''')
@@ -94,10 +94,10 @@ if section_ind == "Predicciones":
         # e = np.sum(p.Error)/len(p)
         st.table(e)
         hist = pd.DataFrame({
-            "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020"],
-            "Error": [1.773, 39.6626, 28.1213],
-            "Predicción" : [438.227, 406.6626, 406.1213],
-            "Real" : [440, 367, 378]
+            "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020", "26/04/2020"],
+            "Error": [1.773, 39.6626, 28.1213, 21.4265],
+            "Predicción" : [438.227, 406.6626, 406.1213, 309.4265],
+            "Real" : [440, 367, 378, 288]
         })
         st.table(hist)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))

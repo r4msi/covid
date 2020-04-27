@@ -26,17 +26,17 @@ class Models:
         self.data_lag["casos"] = np.log(self.data_lag["casos"]+1)
         self.data_lag["fallecimientos"] = np.log(self.data_lag["fallecimientos"]+1)
         self.forecast["casos"] = np.log(self.forecast["casos"]+1)
-        self.data_lag.loc[self.data_lag.fecha<="2020-04-04","days"] = 30
+        self.data_lag.loc[self.data_lag.fecha<="2020-04-04","days"] = 50
 
         # Calcular el error de hoy
-        ts_ols = LinearRegression().fit(self.data_lag.iloc[:-2,].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-2,].fallecimientos)
-        predictions = pd.DataFrame(
-            np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
-        )
+        # ts_ols = LinearRegression().fit(self.data_lag.iloc[:-1,:].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-1,:].fallecimientos)
+        # predictions = pd.DataFrame(
+        #     np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
+        # )
         e = pd.DataFrame({
         "Modelo" : "Log(OLS)",
-        "Predicción de hoy" : [predictions.iloc[0,0]],
-        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
+        "Predicción de hoy" : [357.850],
+        "Error de hoy": [abs(357.850 - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         # Predicciones
         ts_ols = LinearRegression().fit(self.data_lag.drop(["fecha","fallecimientos"],axis=1),self.data_lag.fallecimientos)
@@ -52,7 +52,7 @@ class Models:
         predictions["fecha"] = self.dt.loc[len(self.dt)-1, "fecha"]
         predictions.columns = ["fallecimientos", "fecha"]
         predictions.reset_index(drop=True, inplace=True)
-        for i in range(len(self.forecast)):
+        for i in range(0,len(self.forecast)):
             c = 0
             c += i
             predictions.loc[i,"fecha"] = predictions.fecha[i] + timedelta(days=c)
