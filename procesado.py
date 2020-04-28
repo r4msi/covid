@@ -30,8 +30,8 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-04-17",["altas","fallecimientos"]] = [3900, 585]
         self.dt.loc[self.dt.fecha=="2020-04-18", ["casos"]] = 4499.00
         self.dt.loc[self.dt.fecha=="2020-04-24", ["casos"]] = 5229.00
-        self.dt.loc[self.dt.fecha=="2020-04-26", ["casos"]] = 1729.00
-        self.dt.loc[self.dt.fecha=="2020-04-27", ["casos"]] = 1831.00
+        # self.dt.loc[self.dt.fecha=="2020-04-26", ["casos"]] = 1729.00
+        # self.dt.loc[self.dt.fecha=="2020-04-27", ["casos"]] = 1831.00
 
         # Imputación de hospitalizados e ingresos en la UCI
         imputer_uci = IterativeImputer(
@@ -70,9 +70,9 @@ class ProccesModel:
 
     def features(self):
         data_lag = self.dt[["fecha","casos","days","fallecimientos"]]
-        data_lag["casos"] = self.dt.casos.shift(7).fillna(5)
-        data_lag = data_lag.iloc[:-7,:]
-        forecast = self.dt.iloc[-7:,[0,1]]
+        data_lag["casos"] = self.dt.casos.shift(5).fillna(5)
+        data_lag = data_lag.iloc[:-5,:]
+        forecast = self.dt.iloc[-5:,[0,1]]
 
         forecast.reset_index(drop=True, inplace=True)
         for i in range(len(forecast)):

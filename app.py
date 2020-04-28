@@ -94,10 +94,10 @@ if section_ind == "Predicciones":
         # e = np.sum(p.Error)/len(p)
         st.table(e)
         hist = pd.DataFrame({
-            "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020", "26/04/2020"],
-            "Error": [1.773, 39.6626, 28.1213, 21.4265],
-            "Predicción" : [438.227, 406.6626, 406.1213, 309.4265],
-            "Real" : [440, 367, 378, 288]
+            "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020", "26/04/2020", "27/04/2020"],
+            "Error": [1.773, 39.6626, 28.1213, 21.4265, 26.850],
+            "Predicción" : [438.227, 406.6626, 406.1213, 309.4265, 357.850],
+            "Real" : [440, 367, 378, 288, 331]
         })
         st.table(hist)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
