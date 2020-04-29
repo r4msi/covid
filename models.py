@@ -35,8 +35,9 @@ class Models:
         # )
         e = pd.DataFrame({
         "Modelo" : "Log(OLS)",
-        "Predicción de hoy" : [337.2484],
-        "Error de hoy": [abs(337.2484 - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
+        "Real" : [335],
+        "Predicción de hoy" : [363.3153],
+        "Error de hoy": [abs(363.3153 - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         # Predicciones
         ts_ols = LinearRegression().fit(self.data_lag.drop(["fecha","fallecimientos"],axis=1),self.data_lag.fallecimientos)
@@ -176,7 +177,7 @@ class Models:
 
         sum = sarimax.summary()
         predictions = pd.DataFrame(
-            sarimax.forecast(steps=5, exog=self.forecast[["casos"]])
+            sarimax.forecast(steps=6, exog=self.forecast[["casos"]])
         )
 
         e = pd.DataFrame({
