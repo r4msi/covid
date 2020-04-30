@@ -93,11 +93,19 @@ if section_ind == "Predicciones":
         # st.write("*Es decir, el sumatorio de la predicción - lo observado entre N.*")
         # e = np.sum(p.Error)/len(p)
         st.table(e)
+        st.write("""
+            A continuación se muestra la ventana temporal de test. Se realizó
+            durante una semana: 23 al 29 de abril de 2020.
+            Se reporta la raiz del error cuadrático medio. Es decir, cuanto se desvió de
+            media el modelo durante el periodo de test.
+        """)
+        st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')
+        "RMSE:", (1.773 + 39.6626 + 28.1213 + 21.4265 + 26.850 + 36.2484 + 38.3153)/7
         hist = pd.DataFrame({
-            "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020", "26/04/2020", "27/04/2020", "28/04/2020"],
-            "Error": [1.773, 39.6626, 28.1213, 21.4265, 26.850,36.2484],
-            "Predicción" : [438.227, 406.6626, 406.1213, 309.4265, 357.850, 337.2484],
-            "Real" : [440, 367, 378, 288, 331, 301]
+            "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020", "26/04/2020", "27/04/2020", "28/04/2020", "29/04/2020"],
+            "Error": [1.773, 39.6626, 28.1213, 21.4265, 26.850, 36.2484, 38.3153],
+            "Predicción" : [438.227, 406.6626, 406.1213, 309.4265, 357.850, 337.2484, 363.3153],
+            "Real" : [440, 367, 378, 288, 331, 301, 325]
         })
         st.table(hist)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
@@ -107,7 +115,7 @@ if section_ind == "Predicciones":
 
 
     if options == "OLS":
-        e, fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_ols()
+        fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_ols()
         st.plotly_chart(fig)
         st.markdown("*Se reporta la raiz del error cuadrático medio:*")
         # st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')

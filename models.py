@@ -29,15 +29,15 @@ class Models:
         self.data_lag.loc[self.data_lag.fecha<="2020-04-04","days"] = 50
 
         # Calcular el error de hoy
-        # ts_ols = LinearRegression().fit(self.data_lag.iloc[:-1,:].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-1,:].fallecimientos)
-        # predictions = pd.DataFrame(
-        #     np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
-        # )
+        ts_ols = LinearRegression().fit(self.data_lag.iloc[:-1,:].drop(["fecha","fallecimientos"],axis=1),self.data_lag.iloc[:-1,:].fallecimientos)
+        predictions = pd.DataFrame(
+            np.exp(ts_ols.predict(self.forecast.drop("fecha", axis=1)))
+        )
         e = pd.DataFrame({
         "Modelo" : "Log(OLS)",
-        "Real" : [335],
-        "Predicción de hoy" : [363.3153],
-        "Error de hoy": [abs(363.3153 - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
+        "Real" : self.dt.loc[len(self.dt)-1,"fallecimientos"],
+        "Predicción de hoy" : predictions.iloc[0,:],
+        "Error de hoy": [abs(predictions.iloc[0,0] - self.dt.loc[len(self.dt)-1,"fallecimientos"])]})
 
         # Predicciones
         ts_ols = LinearRegression().fit(self.data_lag.drop(["fecha","fallecimientos"],axis=1),self.data_lag.fallecimientos)
@@ -99,8 +99,8 @@ class Models:
 
         self.data_lag.loc[self.data_lag.fecha<="2020-04-04","days"] = 30
         ts_ols = OLS(
-            self.data_lag.iloc[:-2,].fallecimientos,
-            self.data_lag.iloc[:-2,].drop(["fecha","fallecimientos"], axis=1)
+            self.data_lag.iloc[:-1,].fallecimientos,
+            self.data_lag.iloc[:-1,].drop(["fecha","fallecimientos"], axis=1)
         ).fit()
         sum = ts_ols.summary()
         predictions = pd.DataFrame(
@@ -169,15 +169,15 @@ class Models:
         #                    suppress_warnings=True,
         #                    stepwise=True)
 
-        sarimax = SARIMAX(endog=self.data_lag.iloc[:-2,][["fallecimientos"]],
-                         exog=self.data_lag.iloc[:-2,][["casos"]],
+        sarimax = SARIMAX(endog=self.data_lag.iloc[:-1,][["fallecimientos"]],
+                         exog=self.data_lag.iloc[:-1,][["casos"]],
                          order=(0,0,3),
                          seasonal_order=(0,0,0,0)
         ).fit()
 
         sum = sarimax.summary()
         predictions = pd.DataFrame(
-            sarimax.forecast(steps=6, exog=self.forecast[["casos"]])
+            sarimax.forecast(steps=5, exog=self.forecast[["casos"]])
         )
 
         e = pd.DataFrame({
