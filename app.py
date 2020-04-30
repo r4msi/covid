@@ -99,7 +99,7 @@ if section_ind == "Predicciones":
             Se reporta la raiz del error cuadrático medio. Es decir, cuanto se desvió de
             media el modelo durante el periodo de test.
         """)
-        st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')
+        st.latex(r'\epsilon =\sqrt{\dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}}')
         "RMSE:", (1.773 + 39.6626 + 28.1213 + 21.4265 + 26.850 + 36.2484 + 38.3153)/7
         hist = pd.DataFrame({
             "Fecha": ["23/04/2020", "24/04/2020", "25/04/2020", "26/04/2020", "27/04/2020", "28/04/2020", "29/04/2020"],
