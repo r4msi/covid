@@ -115,7 +115,7 @@ if section_ind == "Predicciones":
 
 
     if options == "OLS":
-        fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_ols()
+        e, fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_ols()
         st.plotly_chart(fig)
         st.markdown("*Se reporta la raiz del error cuadrático medio:*")
         # st.latex(r'\epsilon = \dfrac{\sum^i_1(\hat{y}-y_i)^2}{N}')
