@@ -32,32 +32,34 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-04-18", ["casos_total"]] = 4499.00
         self.dt.loc[self.dt.fecha=="2020-04-24", ["casos_total"]] = 5229.00
         # self.dt.loc[self.dt.fecha=="2020-04-26", ["casos_total"]] = 1729.00
-        # self.dt.loc[self.dt.fecha=="2020-04-27", ["casos_total"]] = 1831.00
+        self.dt.loc[self.dt.fecha=="2020-04-27", ["hospitalizados"]] = 400
         self.dt.loc[self.dt.fecha=="2020-04-29",["fallecimientos"]] = 325
         self.dt.loc[self.dt.fecha=="2020-04-29",["casos_total"]] = 3000
 
         # Imputación de hospitalizados e ingresos en la UCI
-        imputer_uci = IterativeImputer(
-            estimator=ExtraTreesRegressor(n_estimators=300),
-            max_iter=10,
-            random_state=0
-        )
-        imputer_hos = IterativeImputer(
-            estimator=ExtraTreesRegressor(n_estimators=300),
-            max_iter=10,
-            random_state=0
-        )
-        imputer_uci.fit(self.dt.drop(["hospitalizados","fecha"], axis=1))
-        imputer_hos.fit(self.dt.drop(["ingresos_uci","fecha"],axis=1))
-
-        imputed_uci = imputer_uci.transform(self.dt.drop(["hospitalizados","fecha"], axis=1))
-        imputed_uci = pd.DataFrame(imputed_uci, columns=[["casos_total", "altas", "fallecimientos", "ingresos_uci"]])
-
-        imputed_hos = imputer_hos.transform(self.dt.drop(["ingresos_uci","fecha"], axis=1))
-        imputed_hos = pd.DataFrame(imputed_hos, columns=[["casos_total", "altas", "fallecimientos", "hospitalizados"]])
-
-        self.dt["imputed_uci"] = imputed_uci.iloc[:,3]
-        self.dt["imputed_hos"] = imputed_hos.iloc[:,3]
+        # imputer_uci = IterativeImputer(
+        #     estimator=ExtraTreesRegressor(n_estimators=300),
+        #     max_iter=10,
+        #     random_state=0
+        # )
+        # imputer_hos = IterativeImputer(
+        #     estimator=ExtraTreesRegressor(n_estimators=300),
+        #     max_iter=10,
+        #     random_state=0
+        # )
+        # imputer_uci.fit(self.dt.drop(["hospitalizados","fecha"], axis=1))
+        # imputer_hos.fit(self.dt.drop(["ingresos_uci","fecha"],axis=1))
+        #
+        # imputed_uci = imputer_uci.transform(self.dt.drop(["hospitalizados","fecha"], axis=1))
+        # imputed_uci = pd.DataFrame(imputed_uci, columns=[["casos_total", "altas", "fallecimientos", "ingresos_uci"]])
+        #
+        # imputed_hos = imputer_hos.transform(self.dt.drop(["ingresos_uci","fecha"], axis=1))
+        # imputed_hos = pd.DataFrame(imputed_hos, columns=[["casos_total", "altas", "fallecimientos", "hospitalizados"]])
+        #
+        # self.dt["imputed_uci"] = imputed_uci.iloc[:,3]
+        # self.dt["imputed_hos"] = imputed_hos.iloc[:,3]
+        self.dt["imputed_uci"] = self.dt.ingresos_uci
+        self.dt["imputed_hos"] = self.dt.hospitalizados
 
         # Creación de variables temporales para captar tendencia y estacionalidad.
         self.dt["days"] = datetime.now() - self.dt.fecha
@@ -73,9 +75,9 @@ class ProccesModel:
 
     def features(self):
         data_lag = self.dt[["fecha","casos_total","days","fallecimientos"]]
-        data_lag["casos_total"] = self.dt.casos_total.shift(5).fillna(5)
-        data_lag = data_lag.iloc[:-5,:]
-        forecast = self.dt.iloc[-5:,[0,1]]
+        data_lag["casos_total"] = self.dt.casos_total.shift(7).fillna(7)
+        data_lag = data_lag.iloc[:-6,:]
+        forecast = self.dt.iloc[-6:,[0,1]]
 
         forecast.reset_index(drop=True, inplace=True)
         for i in range(len(forecast)):

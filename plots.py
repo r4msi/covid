@@ -88,6 +88,28 @@ class DailyPlots:
 
         return fig
 
+class Pcr:
+
+    def __init__(self):
+        self.dt = pd.read_csv(
+            "https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/nacional_covid19.csv",
+             parse_dates=["fecha"]
+             )
+        self.dt = self.dt.loc[self.dt["fecha"]>"2020-04-20", ["fecha", "casos_pcr"]]
+        self.dt.casos_pcr = pd.DataFrame.diff(self.dt.casos_pcr)
+        self.dt.loc[self.dt.fecha == "2020-04-29","casos_pcr"] = 2144
+
+    def pcr(self):
+        fig = px.bar(
+            self.dt
+            , x="fecha"
+            , y='casos_pcr'
+                , color="casos_pcr"
+                , title="PCR"
+                , color_continuous_scale=px.colors.sequential.Sunsetdark
+            )
+
+        return fig
 
 class MapPlot:
 

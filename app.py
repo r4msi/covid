@@ -35,6 +35,9 @@ if section_ind == "Gráficos":
     fig = DailyPlots(dt=df).infected()
     st.plotly_chart(fig)
 
+    fig = Pcr().pcr()
+    st.plotly_chart(fig)
+
     fig = DailyPlots(dt=df).deaths()
     st.plotly_chart(fig)
 
