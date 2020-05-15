@@ -88,9 +88,9 @@ class DailyPlots:
 
         return fig
 
-
+@st.cache
 class Pcr:
-    @st.cache
+
     def __init__(self):
         self.dt = pd.read_csv(
             "https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/nacional_covid19.csv",
@@ -99,7 +99,7 @@ class Pcr:
         self.dt = self.dt.loc[self.dt["fecha"]>"2020-04-20", ["fecha", "casos_pcr"]]
         self.dt.casos_pcr = pd.DataFrame.diff(self.dt.casos_pcr)
         self.dt.loc[self.dt.fecha == "2020-04-29","casos_pcr"] = 2144
-        self.dt.loc[self.dt.fecha=="2020-05-10",["casos_pcr"]] = 621
+        self.dt.loc[self.dt.fecha=="2020-05-10","casos_pcr"] = 621
 
     def pcr(self):
         fig = px.bar(
