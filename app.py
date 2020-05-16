@@ -28,7 +28,7 @@ def get_data():
     data = Process().cleaning()
     return data
 
-@st.cache
+@st.cache(allow_output_mutation=True)
 def get_data_pcr():
     fig_pcr = Pcr().pcr()
     return fig_pcr
