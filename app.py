@@ -28,6 +28,13 @@ def get_data():
     data = Process().cleaning()
     return data
 
+@st.cache
+def get_data_pcr():
+    fig_pcr = Pcr().pcr()
+    return fig_pcr
+
+fig_pcr = get_data_pcr()
+
 df = get_data()
 
 if section_ind == "Gráficos":
@@ -35,8 +42,7 @@ if section_ind == "Gráficos":
     fig = DailyPlots(dt=df).infected()
     st.plotly_chart(fig)
 
-    fig = Pcr().pcr()
-    st.plotly_chart(fig)
+    st.plotly_chart(fig_pcr)
 
     fig = DailyPlots(dt=df).deaths()
     st.plotly_chart(fig)
