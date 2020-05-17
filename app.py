@@ -28,28 +28,19 @@ def get_data():
     data = Process().cleaning()
     return data
 
-@st.cache(allow_output_mutation=True)
-def get_data_pcr():
-    fig_pcr = Pcr().pcr()
-    return fig_pcr
-
 fig_pcr = get_data_pcr()
 
 df = get_data()
 
 if section_ind == "Gráficos":
 
+    st.write("Incluye Test de anticuerpos y PCR.")
+
     fig = DailyPlots(dt=df).infected()
     st.plotly_chart(fig)
 
-    st.plotly_chart(fig_pcr)
-
     fig = DailyPlots(dt=df).deaths()
     st.plotly_chart(fig)
-
-    st.write(''':exclamation: *A partir del 8 de Abril se dejaron de reportar los
-    ingresos en la UCI/Hospitalizados. Si bien, se pueden estimar a partir de los datos de casos, altas y
-    fallecimientos que si son conocidos. Han sido imputados con ExtraTreesRegressor (parecido a Random Forest).*''')
 
     fig = DailyPlots(dt=df).all_imputed()
     st.plotly_chart(fig)

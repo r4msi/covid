@@ -88,9 +88,9 @@ class DailyPlots:
 
         return fig
 
-@st.cache
-class Pcr:
 
+class Pcr:
+    
     def __init__(self):
         self.dt = pd.read_csv(
             "https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/nacional_covid19.csv",
