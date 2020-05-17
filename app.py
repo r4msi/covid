@@ -28,7 +28,6 @@ def get_data():
     data = Process().cleaning()
     return data
 
-fig_pcr = get_data_pcr()
 
 df = get_data()
 
