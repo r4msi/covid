@@ -33,7 +33,6 @@ df = get_data()
 
 if section_ind == "Gráficos":
 
-    st.write("Incluye Test de anticuerpos y PCR.")
 
     fig = DailyPlots(dt=df).infected()
     st.plotly_chart(fig)

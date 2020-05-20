@@ -67,12 +67,7 @@ class DailyPlots:
             mode="lines",
             name ="Hospitalizados"
         )
-        fig.add_scatter(
-            x =self.dt.fecha,
-            y=self.dt.altas,
-            mode="lines",
-            name ="Altas"
-        )
+
         fig.update_layout(shapes=[
             dict(
                 type= 'line',
@@ -89,29 +84,6 @@ class DailyPlots:
         return fig
 
 
-class Pcr:
-    
-    def __init__(self):
-        self.dt = pd.read_csv(
-            "https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/nacional_covid19.csv",
-             parse_dates=["fecha"]
-             )
-        self.dt = self.dt.loc[self.dt["fecha"]>"2020-04-20", ["fecha", "casos_pcr"]]
-        self.dt.casos_pcr = pd.DataFrame.diff(self.dt.casos_pcr)
-        self.dt.loc[self.dt.fecha == "2020-04-29","casos_pcr"] = 2144
-        self.dt.loc[self.dt.fecha=="2020-05-10","casos_pcr"] = 621
-
-    def pcr(self):
-        fig = px.bar(
-            self.dt
-            , x="fecha"
-            , y='casos_pcr'
-                , color="casos_pcr"
-                , title="PCR"
-                , color_continuous_scale=px.colors.sequential.Sunsetdark
-            )
-
-        return fig
 
 class MapPlot:
 

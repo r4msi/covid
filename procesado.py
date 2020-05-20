@@ -2,9 +2,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from datetime import timedelta
-from sklearn.experimental import enable_iterative_imputer
-from sklearn.impute import IterativeImputer
-from sklearn.ensemble import ExtraTreesRegressor
+
 
 
 class Process:
@@ -16,6 +14,7 @@ class Process:
         )
 
     def cleaning(self):
+        self.dt.casos_total = self.dt.casos_pcr
         self.dt.drop(["casos_pcr", "casos_test_ac"], axis=1,inplace=True)
         self.dt.altas.fillna(0, inplace=True)
         self.dt.fallecimientos.fillna(0, inplace=True)
@@ -29,38 +28,18 @@ class Process:
         self.dt.iloc[0, 1:6] = 0
         # Cambio en el sistema de recuento.
         self.dt.loc[self.dt.fecha=="2020-04-17",["altas","fallecimientos"]] = [3900, 585]
-        self.dt.loc[self.dt.fecha=="2020-04-18", ["casos_total"]] = 4499.00
-        self.dt.loc[self.dt.fecha=="2020-04-24", ["casos_total"]] = 5229.00
+        # self.dt.loc[self.dt.fecha=="2020-04-18", ["casos_total"]] = 4499.00
+        # self.dt.loc[self.dt.fecha=="2020-04-24", ["casos_total"]] = 5229.00
         # self.dt.loc[self.dt.fecha=="2020-04-26", ["casos_total"]] = 1729.00
         self.dt.loc[self.dt.fecha=="2020-04-27", ["hospitalizados"]] = 400
+        self.dt.loc[self.dt.fecha=="2020-05-19", ["hospitalizados"]] = 200
         self.dt.loc[self.dt.fecha=="2020-04-29",["fallecimientos"]] = 325
-        self.dt.loc[self.dt.fecha=="2020-04-29",["casos_total"]] = 3000
-        self.dt.loc[self.dt.fecha=="2020-05-10",["casos_total"]] = 2000
-        self.dt.loc[self.dt.fecha=="2020-05-19",["casos_total"]] = 295
+        # self.dt.loc[self.dt.fecha=="2020-04-29",["casos_total"]] = 3000
+        # self.dt.loc[self.dt.fecha=="2020-05-10",["casos_total"]] = 2000
+        self.dt.loc[self.dt.fecha=="2020-04-19",["casos_total"]] = 3000
+        self.dt.loc[self.dt.fecha=="2020-05-11",["casos_total"]] = 700
         self.dt.loc[self.dt.fecha=="2020-05-20",["altas"]] = 500
 
-        # Imputación de hospitalizados e ingresos en la UCI
-        # imputer_uci = IterativeImputer(
-        #     estimator=ExtraTreesRegressor(n_estimators=300),
-        #     max_iter=10,
-        #     random_state=0
-        # )
-        # imputer_hos = IterativeImputer(
-        #     estimator=ExtraTreesRegressor(n_estimators=300),
-        #     max_iter=10,
-        #     random_state=0
-        # )
-        # imputer_uci.fit(self.dt.drop(["hospitalizados","fecha"], axis=1))
-        # imputer_hos.fit(self.dt.drop(["ingresos_uci","fecha"],axis=1))
-        #
-        # imputed_uci = imputer_uci.transform(self.dt.drop(["hospitalizados","fecha"], axis=1))
-        # imputed_uci = pd.DataFrame(imputed_uci, columns=[["casos_total", "altas", "fallecimientos", "ingresos_uci"]])
-        #
-        # imputed_hos = imputer_hos.transform(self.dt.drop(["ingresos_uci","fecha"], axis=1))
-        # imputed_hos = pd.DataFrame(imputed_hos, columns=[["casos_total", "altas", "fallecimientos", "hospitalizados"]])
-        #
-        # self.dt["imputed_uci"] = imputed_uci.iloc[:,3]
-        # self.dt["imputed_hos"] = imputed_hos.iloc[:,3]
         self.dt["imputed_uci"] = self.dt.ingresos_uci
         self.dt["imputed_hos"] = self.dt.hospitalizados
 
