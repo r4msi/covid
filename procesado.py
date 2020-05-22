@@ -34,10 +34,12 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-04-27", ["hospitalizados"]] = 400
         self.dt.loc[self.dt.fecha=="2020-05-19", ["hospitalizados"]] = 200
         self.dt.loc[self.dt.fecha=="2020-04-29",["fallecimientos"]] = 325
+        self.dt.loc[self.dt.fecha=="2020-05-22",["fallecimientos"]] = 56
         # self.dt.loc[self.dt.fecha=="2020-04-29",["casos_total"]] = 3000
         # self.dt.loc[self.dt.fecha=="2020-05-10",["casos_total"]] = 2000
         self.dt.loc[self.dt.fecha=="2020-04-19",["casos_total"]] = 3000
         self.dt.loc[self.dt.fecha=="2020-05-11",["casos_total"]] = 700
+        self.dt.loc[self.dt.fecha=="2020-05-22",["casos_total"]] = 446
         self.dt.loc[self.dt.fecha=="2020-05-20",["altas"]] = 500
 
         self.dt["imputed_uci"] = self.dt.ingresos_uci
