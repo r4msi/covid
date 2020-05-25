@@ -28,28 +28,16 @@ class Process:
         self.dt.iloc[0, 1:6] = 0
         # Cambio en el sistema de recuento.
         self.dt.loc[self.dt.fecha=="2020-04-17",["altas","fallecimientos"]] = [3900, 585]
-        # self.dt.loc[self.dt.fecha=="2020-04-18", ["casos_total"]] = 4499.00
-        # self.dt.loc[self.dt.fecha=="2020-04-24", ["casos_total"]] = 5229.00
-        # self.dt.loc[self.dt.fecha=="2020-04-26", ["casos_total"]] = 1729.00
-        self.dt.loc[self.dt.fecha=="2020-04-27", ["hospitalizados"]] = 400
-        self.dt.loc[self.dt.fecha=="2020-05-19", ["hospitalizados"]] = 200
         self.dt.loc[self.dt.fecha=="2020-04-29",["fallecimientos"]] = 325
         self.dt.loc[self.dt.fecha=="2020-05-22",["fallecimientos"]] = 56
-        # self.dt.loc[self.dt.fecha=="2020-04-29",["casos_total"]] = 3000
-        # self.dt.loc[self.dt.fecha=="2020-05-10",["casos_total"]] = 2000
         self.dt.loc[self.dt.fecha=="2020-04-19",["casos_total"]] = 3000
         self.dt.loc[self.dt.fecha=="2020-05-11",["casos_total"]] = 700
         self.dt.loc[self.dt.fecha=="2020-05-22",["casos_total"]] = 446
-        self.dt.loc[self.dt.fecha=="2020-05-20",["altas"]] = 500
-
-        self.dt["imputed_uci"] = self.dt.ingresos_uci
-        self.dt["imputed_hos"] = self.dt.hospitalizados
-
+        self.dt.loc[self.dt.fecha=="2020-05-25",["casos_total"]] = 132
+        self.dt.loc[self.dt.fecha=="2020-05-25",["fallecimientos"]] = 50
         # Creación de variables temporales para captar tendencia y estacionalidad.
         self.dt["days"] = datetime.now() - self.dt.fecha
         self.dt["days"] = self.dt.days.apply(lambda x: int(x.days))
-        self.dt["month"] = self.dt.fecha.apply(lambda x: int(x.month))
-        self.dt["weekday"] = self.dt.fecha.apply(lambda x: x.weekday())
 
         return self.dt
 

@@ -14,9 +14,8 @@ if not check:
     st.markdown('''
     ¡Bienvenido! El propósito de esta web es predecir la evolución de la pandemia en España.
     El proyecto se concibe como una forma de aprender de uno de los eventos más devastadores para nuestro país y la humanidad.
-    Por ello, se ha querido dar un paso al frente y crear un dashboard que aporte:
+    Por ello, se ha querido crear un dashboard que aporte:
     - **Automaticidad.** Los datos se actualizan solos y los modelos aprenden de los nuevos datos de manera automática.
-    - **Estimación de variables que dejaron de ser reportadas.** (Ingresos en UCI y hospitalizados).
     - **Gráficos claros, visuales y comprensibles.**
     - **Código público.** Disponible en github.
     ''')
@@ -28,11 +27,15 @@ def get_data():
     data = Process().cleaning()
     return data
 
+@st.cache
+def dataMap():
+    data = ProcessMap().ret()
+    return data
 
 df = get_data()
+data_map = dataMap()
 
 if section_ind == "Gráficos":
-
 
     fig = DailyPlots(dt=df).infected()
     st.plotly_chart(fig)
@@ -40,26 +43,10 @@ if section_ind == "Gráficos":
     fig = DailyPlots(dt=df).deaths()
     st.plotly_chart(fig)
 
-    fig = DailyPlots(dt=df).all_imputed()
-    st.plotly_chart(fig)
-
-if section_ind == "Mapas":
-
     st.header("Mapa interactivo CCAA:")
     st.write("*Incluye tanto las ciudades autónomas de Ceuta y Melilla, como las comunidades extrapeninsulares.*")
-    @st.cache
-    def dataMap():
-        data = ProcessMap().ret()
-        return data
-
-    data_map = dataMap()
-    st.plotly_chart(MapPlot(data_map).Map())
-
-    st.header("Mapa de calor/Matriz de correlaciones:")
-    st.write("*Correlaciones (kendall) de las variables del dataset.*")
-    fig = HeatMap(data=df).heat()
-    st.pyplot(fig)
-
+    fig = MapPlot(dt=data_map).Map()
+    st.plotly_chart(fig)
 
 if section_ind == "Predicciones":
     check2 = st.checkbox("Mostrar info. de modelos.")
