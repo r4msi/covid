@@ -6,7 +6,7 @@ from models import Models
 
 
 st.sidebar.title('Contenido:')
-section_ind = st.sidebar.radio('',['Gráficos','Mapas', 'Predicciones', 'Datos/Código/Contacto'])
+section_ind = st.sidebar.radio('',['Gráficos', 'Predicciones', 'Datos/Código/Contacto'])
 
 st.title("COVID-19 en España")
 check = st.checkbox("Ocultar introducción.")
