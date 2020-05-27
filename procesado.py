@@ -34,7 +34,11 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-05-11",["casos_total"]] = 700
         self.dt.loc[self.dt.fecha=="2020-05-22",["casos_total"]] = 446
         self.dt.loc[self.dt.fecha=="2020-05-25",["casos_total"]] = 132
+        self.dt.loc[self.dt.fecha=="2020-05-26",["casos_total"]] = 194
+        self.dt.loc[self.dt.fecha=="2020-05-27",["casos_total"]] = 231
         self.dt.loc[self.dt.fecha=="2020-05-25",["fallecimientos"]] = 50
+        self.dt.loc[self.dt.fecha=="2020-05-26",["fallecimientos"]] = 35
+        self.dt.loc[self.dt.fecha=="2020-05-27",["fallecimientos"]] = 39
         # Creación de variables temporales para captar tendencia y estacionalidad.
         self.dt["days"] = datetime.now() - self.dt.fecha
         self.dt["days"] = self.dt.days.apply(lambda x: int(x.days))
@@ -48,8 +52,8 @@ class ProccesModel:
     def features(self):
         data_lag = self.dt[["fecha","casos_total","days","fallecimientos"]]
         data_lag["casos_total"] = self.dt.casos_total.shift(7).fillna(7)
-        data_lag = data_lag.iloc[:-6,:]
-        forecast = self.dt.iloc[-6:,[0,1]]
+        data_lag = data_lag.iloc[:-5,:]
+        forecast = self.dt.iloc[-5:,[0,1]]
 
         forecast.reset_index(drop=True, inplace=True)
         for i in range(len(forecast)):
