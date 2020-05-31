@@ -37,7 +37,10 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-05-26",["casos_total"]] = 194
         self.dt.loc[self.dt.fecha=="2020-05-27",["casos_total"]] = 231
         self.dt.loc[self.dt.fecha=="2020-05-25",["fallecimientos"]] = 50
+        self.dt.loc[self.dt.fecha=="2020-05-26",["fallecimientos"]] = 38
         self.dt.loc[self.dt.fecha=="2020-05-28",["casos_total"]] = 182
+        self.dt.loc[self.dt.fecha=="2020-05-29",["casos_total"]] = 187
+        self.dt.loc[self.dt.fecha=="2020-05-30",["casos_total"]] = 271
 
         # Creación de variables temporales para captar tendencia y estacionalidad.
         self.dt["days"] = datetime.now() - self.dt.fecha

@@ -177,7 +177,7 @@ class Models:
 
         sum = sarimax.summary()
         predictions = pd.DataFrame(
-            sarimax.forecast(steps=6, exog=self.forecast[["casos_total"]])
+            sarimax.forecast(steps=5, exog=self.forecast[["casos_total"]])
         )
 
         e = pd.DataFrame({
