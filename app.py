@@ -12,7 +12,7 @@ st.title("COVID-19 en España")
 check = st.checkbox("Ocultar introducción.")
 if not check:
     st.markdown('''
-    ¡Bienvenido! El propósito de esta web es predecir la evolución de la pandemia en España.
+    ¡Bienvenido! El propósito de esta web fue predecir la evolución de la pandemia en España. *Se dejó de actualizar el 20/06/2020.*
     El proyecto se concibe como una forma de aprender de uno de los eventos más devastadores para nuestro país y la humanidad.
     Por ello, se ha querido crear un dashboard que aporte:
     - **Automaticidad.** Los datos se actualizan solos y los modelos aprenden de los nuevos datos de manera automática.
@@ -68,7 +68,7 @@ if section_ind == "Predicciones":
 
     options = st.selectbox(
         label="Modelo a elegir:",
-        options = [ "OLS","Log(OLS)", "SARIMAX"]
+        options = [ "Log(OLS)","OLS", "SARIMAX"]
     )
     if options == "Log(OLS)":
         e, fig, sum= Models(data=df, data_lag=data_lag, forecast = forecast ).fit_log_ols()
@@ -109,7 +109,7 @@ if section_ind == "Predicciones":
         st.latex(r'\epsilon = |obs - pred|')
         st.table(e)
         # st.table(p.sort_values("fecha",ascending=False).reset_index(drop=True))
-    
+
         st.write("""
                 A continuación se muestra la ventana temporal de test. Se realizó
                 durante una semana: 23 al 29 de abril de 2020.

@@ -9,7 +9,7 @@ class Process:
 
     def __init__(self):
         self.dt = pd.read_csv(
-            "https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/nacional_covid19.csv",
+            "data/nacional_covid19.csv",
              parse_dates=["fecha"]
         )
 
@@ -38,6 +38,7 @@ class Process:
         self.dt.loc[self.dt.fecha=="2020-05-27",["casos_total"]] = 231
         self.dt.loc[self.dt.fecha=="2020-05-25",["fallecimientos"]] = 50
         self.dt.loc[self.dt.fecha=="2020-05-26",["fallecimientos"]] = 38
+        self.dt.loc[self.dt.fecha=="2020-06-19",["fallecimientos"]] = 36
         self.dt.loc[self.dt.fecha=="2020-05-28",["casos_total"]] = 182
         self.dt.loc[self.dt.fecha=="2020-05-29",["casos_total"]] = 187
         self.dt.loc[self.dt.fecha=="2020-05-30",["casos_total"]] = 271
