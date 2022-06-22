@@ -1,7 +1,7 @@
 statsmodels==0.11.1
 pandas==1.0.3
 streamlit==0.57.3
-numpy==1.17.3
+numpy==1.22.0
 plotly==4.6.0
 lxml==4.4.1
 matplotlib==3.2.1
